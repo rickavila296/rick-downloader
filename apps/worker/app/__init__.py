@@ -1,0 +1,1 @@
+"""Rick-downloader worker package."""

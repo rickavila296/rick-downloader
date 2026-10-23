@@ -1,0 +1,33 @@
+services:
+  worker:
+    build: ./apps/worker
+    restart: unless-stopped
+    environment:
+      DOWNLOAD_DIR: /downloads
+      DB_PATH: /data/rick-downloader.db
+      MAX_CONCURRENT: ${MAX_CONCURRENT:-2}
+      MAX_ENTRIES: ${MAX_ENTRIES:-200}
+      MAX_FILESIZE_MB: ${MAX_FILESIZE_MB:-4096}
+      HISTORY_BACKEND: ${HISTORY_BACKEND:-sqlite}
+      COOKIES_FILE: /secrets/cookies.txt
+    volumes:
+      - ./downloads:/downloads
+      - ./data:/data
+      - ./secrets:/secrets:ro
+    # Spec §9.4: the worker port is NOT published to the host. It is only
+    # reachable by `web` over the private compose network.
+    expose:
+      - "8000"
+
+  web:
+    build:
+      context: ./apps/web
+      args:
+        WORKER_URL: http://worker:8000
+    restart: unless-stopped
+    depends_on:
+      worker:
+        condition: service_healthy
+    # Spec §9.4: published on loopback only.
+    ports:
+      - "127.0.0.1:3000:3000"

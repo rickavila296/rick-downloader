@@ -1,0 +1,48 @@
+# env / secrets
+.env
+.env.*
+!.env.example
+secrets/
+/secrets/
+
+# runtime data (spec §11)
+/downloads/
+/data/
+apps/worker/data/
+apps/worker/downloads/
+
+
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# node
+node_modules/
+.next/
+test-results/
+playwright-report/
+
+# os / editors
+.DS_Store
+Thumbs.db
+.vscode/
+
+UX_PAGES_V2
+secrets/
+.env
+data/
+downloads/
+*.db
+.agent/
+ANTIGRAVITY_SPEC.md
+SETUP*.md
+TEST_*.md
+REVIEW_*.md
+AUDIT_*.md
+UX_*.md
+README_DRAFT.md
